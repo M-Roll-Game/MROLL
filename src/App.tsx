@@ -80,7 +80,6 @@ function App() {
       fetchRecentRolls()
     }).subscribe()
 
-    // Proper cleanup
     return () => {
       supabase.removeChannel(channel)
     }
@@ -115,7 +114,6 @@ function App() {
     }
   }
 
-  // 1-second cooldown
   useEffect(() => {
     if (cooldown <= 0) return
     const timer = setInterval(() => setCooldown(c => Math.max(0, c - 1)), 1000)
@@ -148,7 +146,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white">
-      <div className="max-w-5xl mx-auto px-5 py-10">
+      <div className="max-w-5xl mx-auto px-4 py-6 md:px-5 md:py-10">
 
         {/* Top Navigation */}
         <div className="flex justify-between items-center mb-8">
@@ -168,73 +166,73 @@ function App() {
           </button>
         </div>
 
-        <div className="text-center mb-12">
+        <div className="text-center mb-10 md:mb-12">
           <div className="flex justify-center items-center gap-3 mb-4">
-            <div className="text-[82px] font-black tracking-[-6px] text-transparent bg-clip-text bg-gradient-to-br from-amber-300 to-yellow-500">M̅</div>
-            <h1 className="text-6xl font-black tracking-tighter">ROLL</h1>
+            <div className="text-[68px] md:text-[82px] font-black tracking-[-5px] md:tracking-[-6px] text-transparent bg-clip-text bg-gradient-to-br from-amber-300 to-yellow-500">M̅</div>
+            <h1 className="text-5xl md:text-6xl font-black tracking-tighter">ROLL</h1>
           </div>
-          <p className="text-xl text-gray-400">One million numbers.<br />One shared destiny.</p>
+          <p className="text-lg md:text-xl text-gray-400">One million numbers.<br />One shared destiny.</p>
         </div>
 
         {/* Progress Section */}
-        <div className="bg-zinc-950 border border-amber-500/20 rounded-3xl p-8 mb-10">
-          <div className="flex flex-col md:flex-row gap-8 items-center justify-between mb-8">
-            <div className="flex items-center gap-5">
-              <Hash className="w-10 h-10 text-amber-400" />
+        <div className="bg-zinc-950 border border-amber-500/20 rounded-3xl p-6 md:p-8 mb-10">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center justify-between mb-8">
+            <div className="flex items-center gap-4 md:gap-5">
+              <Hash className="w-9 h-9 md:w-10 md:h-10 text-amber-400" />
               <div>
-                <p className="text-5xl font-mono font-bold text-white">
-                  {discoveredCount.toLocaleString()} <span className="text-3xl text-gray-500">/ 1,000,000</span>
+                <p className="text-4xl md:text-5xl font-mono font-bold text-white">
+                  {discoveredCount.toLocaleString()} <span className="text-2xl md:text-3xl text-gray-500">/ 1,000,000</span>
                 </p>
-                <p className="text-lg text-white">Unique Numbers Rolled</p>
+                <p className="text-base md:text-lg text-white">Unique Numbers Rolled</p>
               </div>
             </div>
             <div className="text-center">
-              <p className="text-7xl font-bold text-amber-400 tracking-tighter">{percentage}%</p>
+              <p className="text-6xl md:text-7xl font-bold text-amber-400 tracking-tighter">{percentage}%</p>
             </div>
           </div>
 
-          <div className="h-6 bg-zinc-900 rounded-full overflow-hidden border border-zinc-700 mb-8">
+          <div className="h-5 md:h-6 bg-zinc-900 rounded-full overflow-hidden border border-zinc-700 mb-8">
             <div className="h-full bg-gradient-to-r from-amber-400 to-yellow-500 transition-all duration-1000" style={{ width: `${percentage}%` }} />
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8 items-stretch justify-center mb-10">
+          <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-stretch justify-center mb-10">
             <button
               onClick={rollDice}
               disabled={isRolling || cooldown > 0}
-              className="group px-20 py-10 bg-gradient-to-b from-amber-300 via-yellow-400 to-amber-600 hover:brightness-110 disabled:from-zinc-700 text-black font-black text-4xl rounded-3xl flex items-center gap-5 shadow-2xl shadow-amber-600/50 active:scale-95 transition-all"
+              className="group px-16 md:px-20 py-9 md:py-10 bg-gradient-to-b from-amber-300 via-yellow-400 to-amber-600 hover:brightness-110 disabled:from-zinc-700 text-black font-black text-3xl md:text-4xl rounded-3xl flex items-center gap-4 md:gap-5 shadow-2xl shadow-amber-600/50 active:scale-95 transition-all"
             >
-              <Dice6 className="w-16 h-16 group-active:rotate-45 transition-transform" />
+              <Dice6 className="w-14 h-14 md:w-16 md:h-16 group-active:rotate-45 transition-transform" />
               {cooldown > 0 ? `WAIT ${cooldown}s` : isRolling ? "ROLLING..." : "ROLL THE DICE"}
-              <RefreshCw className={`w-10 h-10 ${isRolling ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-8 h-8 md:w-10 md:h-10 ${isRolling ? 'animate-spin' : ''}`} />
             </button>
 
             {rolledNumber && (
-              <div className={`flex-1 max-w-md p-8 rounded-3xl border-4 flex flex-col items-center justify-center transition-all ${isNewDiscovery ? 'border-amber-400 bg-amber-400/10' : 'border-zinc-700'}`}>
+              <div className={`flex-1 max-w-md p-6 md:p-8 rounded-3xl border-4 flex flex-col items-center justify-center transition-all ${isNewDiscovery ? 'border-amber-400 bg-amber-400/10' : 'border-zinc-700'}`}>
                 <p className="text-amber-400 tracking-[3px] text-sm mb-2">YOU ROLLED</p>
-                <p className="text-6xl font-mono font-black tracking-tighter">#{rolledNumber}</p>
-                {isNewDiscovery && <p className="text-xl text-amber-400 font-bold mt-4">🎉 NEW DISCOVERY!</p>}
+                <p className="text-5xl md:text-6xl font-mono font-black tracking-tighter">#{rolledNumber}</p>
+                {isNewDiscovery && <p className="text-lg md:text-xl text-amber-400 font-bold mt-4">🎉 NEW DISCOVERY!</p>}
               </div>
             )}
           </div>
 
           <div className="text-center">
-            <p className="text-lg font-medium text-white">
+            <p className="text-base md:text-lg font-medium text-white">
               PROJECT RUNNING FOR <span className="text-amber-400 font-mono font-bold">{daysSinceStart}</span> DAYS
             </p>
           </div>
         </div>
 
         {/* Min/Max + Total Rolls + Username */}
-        <div className="grid grid-cols-2 gap-6 text-center mb-10">
+        <div className="grid grid-cols-2 gap-4 md:gap-6 text-center mb-10">
           <div className="bg-zinc-900 rounded-2xl p-5 border border-zinc-700">
-            <ArrowDown className="w-7 h-7 mx-auto mb-2 text-amber-400" />
+            <ArrowDown className="w-6 h-6 md:w-7 md:h-7 mx-auto mb-2 text-amber-400" />
             <p className="text-xs text-gray-400">SMALLEST</p>
-            <p className="text-4xl font-mono font-bold">{minNumber ? `#${minNumber}` : '—'}</p>
+            <p className="text-3xl md:text-4xl font-mono font-bold">{minNumber ? `#${minNumber}` : '—'}</p>
           </div>
           <div className="bg-zinc-900 rounded-2xl p-5 border border-zinc-700">
-            <ArrowUp className="w-7 h-7 mx-auto mb-2 text-amber-400" />
+            <ArrowUp className="w-6 h-6 md:w-7 md:h-7 mx-auto mb-2 text-amber-400" />
             <p className="text-xs text-gray-400">LARGEST</p>
-            <p className="text-4xl font-mono font-bold">{maxNumber ? `#${maxNumber}` : '—'}</p>
+            <p className="text-3xl md:text-4xl font-mono font-bold">{maxNumber ? `#${maxNumber}` : '—'}</p>
           </div>
         </div>
 
