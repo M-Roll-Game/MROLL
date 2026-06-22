@@ -80,7 +80,10 @@ function App() {
       fetchRecentRolls()
     }).subscribe()
 
-    return () => supabase.removeChannel(channel)
+    // Proper cleanup
+    return () => {
+      supabase.removeChannel(channel)
+    }
   }, [])
 
   const rollDice = async () => {
@@ -194,7 +197,6 @@ function App() {
             <div className="h-full bg-gradient-to-r from-amber-400 to-yellow-500 transition-all duration-1000" style={{ width: `${percentage}%` }} />
           </div>
 
-          {/* Roll Button + You Rolled */}
           <div className="flex flex-col lg:flex-row gap-8 items-stretch justify-center mb-10">
             <button
               onClick={rollDice}
